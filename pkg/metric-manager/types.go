@@ -24,7 +24,7 @@ type MQPayload struct {
 }
 
 type MetricPayload struct {
-	Name string
-	Value {}interface
+	Name   string
+	Value  float64
 	Labels map[string]string
 }
