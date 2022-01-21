@@ -19,9 +19,7 @@ type MetricConfig struct {
 	Labels   []string
 }
 
-type MQPayload struct {
-	Metrics []MetricPayload
-}
+type MQPayload []MetricPayload
 
 type MetricPayload struct {
 	Name   string

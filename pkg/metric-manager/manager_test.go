@@ -21,20 +21,16 @@ func TestManagerSingleGauge(t *testing.T) {
 	})
 
 	// Post an update
-	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "simple_metric", Value: 10},
-		},
+	sm.Update([]MetricPayload{
+		{Name: "simple_metric", Value: 10},
 	})
 
 	// Check if metric reflects the update
 	assert.Equal(float64(10), testutil.ToFloat64(sm.metrics["simple_metric"]))
 
 	// Change gauge value again
-	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "simple_metric", Value: 5},
-		},
+	sm.Update([]MetricPayload{
+		{Name: "simple_metric", Value: 5},
 	})
 
 	// Check new value
@@ -55,11 +51,9 @@ func TestManagerTwoMetrics(t *testing.T) {
 	})
 
 	// Post an update to both metrics in one shot
-	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "simple_gauge", Value: 10},
-			{Name: "simple_counter", Value: 5},
-		},
+	sm.Update([]MetricPayload{
+		{Name: "simple_gauge", Value: 10},
+		{Name: "simple_counter", Value: 5},
 	})
 
 	// Check if metric reflects the update
@@ -68,9 +62,7 @@ func TestManagerTwoMetrics(t *testing.T) {
 
 	// Change counter value alone
 	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "simple_counter", Value: 5},
-		},
+		{Name: "simple_counter", Value: 5},
 	})
 
 	// Gauge should not have changed
@@ -93,9 +85,7 @@ func TestManagerSingleLabel(t *testing.T) {
 
 	// Post an update
 	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value1"}},
-		},
+		{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value1"}},
 	})
 
 	// Check if metric reflects the update
@@ -103,9 +93,7 @@ func TestManagerSingleLabel(t *testing.T) {
 
 	// Post an update
 	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value2"}},
-		},
+		{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value2"}},
 	})
 
 	// check if both the counters have right values now
@@ -114,10 +102,8 @@ func TestManagerSingleLabel(t *testing.T) {
 
 	// Post a double update
 	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value1"}},
-			{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value2"}},
-		},
+		{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value1"}},
+		{Name: "label_metric_1", Value: 10, Labels: map[string]string{"label1": "value2"}},
 	})
 
 	// check if both counters are updated
@@ -139,10 +125,8 @@ func TestManagerMultipleLabels(t *testing.T) {
 
 	// Post a bunch of updates
 	sm.Update(MQPayload{
-		Metrics: []MetricPayload{
-			{Name: "label_metric_2", Value: 10, Labels: map[string]string{"label1": "value11", "label2": "value21", "label3": "value31"}},
-			{Name: "label_metric_2", Value: 20, Labels: map[string]string{"label1": "value12", "label2": "value22", "label3": "value32"}},
-		},
+		{Name: "label_metric_2", Value: 10, Labels: map[string]string{"label1": "value11", "label2": "value21", "label3": "value31"}},
+		{Name: "label_metric_2", Value: 20, Labels: map[string]string{"label1": "value12", "label2": "value22", "label3": "value32"}},
 	})
 
 	assert.Equal(float64(10), testutil.ToFloat64(sm.metrics["label_metric_2"].(*prometheus.GaugeVec).With(map[string]string{"label1": "value11", "label2": "value21", "label3": "value31"})))

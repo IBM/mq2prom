@@ -51,7 +51,7 @@ func (m *SimpleManager) Init(metricSpec MetricSpec) {
 }
 
 func (m *SimpleManager) Update(mqpayload MQPayload) {
-	for _, payload := range mqpayload.Metrics {
+	for _, payload := range mqpayload {
 		collector := m.metrics[payload.Name]
 
 		switch m.metricTypes[payload.Name] {
