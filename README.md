@@ -11,3 +11,7 @@ Read metrics from a Message Queue in Json format and expose them in a Prometheus
 3. Does not allow generic labelling of metrics.
 4. Does not support Histogram and Summary metric types.
 
+
+## License
+
+Licensed under Apache License 2.0.
