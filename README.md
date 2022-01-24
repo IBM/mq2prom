@@ -1,5 +1,7 @@
 # mq2prom
 
+![tests](https://github.com/IBM/mq2prom/actions/workflows/unit-test.yml/badge.svg)
+
 Read metrics from a Message Queue in Json format and expose them in a Prometheus compatible format.
 
 **Currently only works for MQTT compatible MQs.**
