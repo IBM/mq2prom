@@ -1,4 +1,4 @@
-# mq2p
+# mq2prom
 
 Read metrics from a Message Queue in Json format and expose them in a Prometheus compatible format.
 
@@ -7,11 +7,11 @@ Read metrics from a Message Queue in Json format and expose them in a Prometheus
 ```
 make build
 ```
-builds the `mq2p` binary which can be run directly. By default metrics are exposed on port 9641.
+builds the `mq2prom` binary which can be run directly. By default metrics are exposed on port 9641.
 
 ## Testing
 
-Make sure that a MQTT compatible MQ is running on the same machine. Run this binary.
+Make sure that a MQTT compatible MQ is running at the port specified in the config file `config.yaml`. Run this binary.
 
 Submit a message of the form `'[{"name": "simple_metric", "value": 10, "labels": {"label1": "value1"}}]'` onto the MQ.
 

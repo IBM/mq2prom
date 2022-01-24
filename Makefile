@@ -1,2 +1,2 @@
 build:
-	go build -o mq2p ./cmd
+	go build -o mq2prom ./cmd
