@@ -7,7 +7,7 @@ Read metrics from a Message Queue in Json format and expose them in a Prometheus
 ```
 make build
 ```
-builds the `mq2p` binary which can be run directly. By default metrics are exposed on port 9146.
+builds the `mq2p` binary which can be run directly. By default metrics are exposed on port 9641.
 
 ## Testing
 
@@ -17,7 +17,7 @@ Submit a message of the form `'[{"name": "simple_metric", "value": 10, "labels":
 
 Now, check that the metric is showing up in the metrics:
 ```
-curl localhost:9146/metrics | grep "simple_metric"
+curl localhost:9641/metrics | grep "simple_metric"
 ```
 
 ## Why not Mqtt2prometheus?

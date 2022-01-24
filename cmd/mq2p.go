@@ -53,5 +53,5 @@ func main() {
 	}
 
 	http.Handle("/metrics", promhttp.Handler())
-	log.Fatal(http.ListenAndServe(":9146", nil))
+	log.Fatal(http.ListenAndServe(":9641", nil))
 }
