@@ -10,21 +10,24 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	config "github.ibm.com/chandergovind/mq2p/pkg/config"
 	manager "github.ibm.com/chandergovind/mq2p/pkg/metric-manager"
 )
 
 func main() {
+	conf, err := config.ReadConfig("config.yaml")
+	if err != nil {
+		panic(err)
+	}
+
 	sm := manager.NewSimpleManager()
 
-	// Setup a single metric - Gauge
 	sm.Init(manager.MetricSpec{
-		Metrics: []manager.MetricConfig{
-			{MQName: "simple_metric", PromName: "simple_metric_prom", Help: "dummy metric value", Type: manager.Gauge, Labels: []string{"label1"}},
-		},
+		Metrics: conf.Metrics,
 	})
 
 	opts := mqtt.NewClientOptions()
-	opts.AddBroker("tcp://0.0.0.0:1883").SetCleanSession(true)
+	opts.AddBroker(conf.MqConfig.Server).SetCleanSession(true)
 
 	c := mqtt.NewClient(opts)
 

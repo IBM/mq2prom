@@ -1,0 +1,9 @@
+mq:
+  server: tcp://127.0.0.1:1883
+metrics:
+  - mq_name: simple_metric
+    prom_name: simple_metric_prom
+    help: Simple metric
+    type: gauge
+    labels:
+      - label1

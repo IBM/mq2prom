@@ -3,10 +3,34 @@ package manager
 import (
 	"testing"
 
+	"gopkg.in/yaml.v3"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestYamlUnmarshalMetricType(t *testing.T) {
+	assert := assert.New(t)
+
+	var mt MetricType
+	// No error in unmarshalling Gauge
+	assert.Nil(yaml.Unmarshal([]byte("gauge"), &mt))
+	// MetricType is set correctly
+	assert.Equal(Gauge, mt)
+
+	// Similar test for Counter
+	assert.Nil(yaml.Unmarshal([]byte("counter"), &mt))
+	assert.Equal(Counter, mt)
+
+	// Try setting arbitrary string, should fail
+	assert.Error(yaml.Unmarshal([]byte("rubbish"), &mt))
+	assert.Equal(Counter, mt)
+
+	// Try setting unimplemented values - should fail
+	assert.Error(yaml.Unmarshal([]byte("histogram"), &mt))
+	assert.Error(yaml.Unmarshal([]byte("summary"), &mt))
+}
 
 func TestManagerSingleGauge(t *testing.T) {
 	assert := assert.New(t)

@@ -6,6 +6,7 @@ require (
 	github.com/eclipse/paho.mqtt.golang v1.3.5
 	github.com/prometheus/client_golang v1.12.0
 	github.com/stretchr/testify v1.4.0
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 )
 
 require (
