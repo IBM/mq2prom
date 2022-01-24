@@ -156,3 +156,32 @@ func TestManagerMultipleLabels(t *testing.T) {
 	assert.Equal(float64(10), testutil.ToFloat64(sm.metrics["label_metric_2"].(*prometheus.GaugeVec).With(map[string]string{"label1": "value11", "label2": "value21", "label3": "value31"})))
 	assert.Equal(float64(20), testutil.ToFloat64(sm.metrics["label_metric_2"].(*prometheus.GaugeVec).With(map[string]string{"label1": "value12", "label2": "value22", "label3": "value32"})))
 }
+
+func TestManagerUnknownMetric(t *testing.T) {
+	assert := assert.New(t)
+
+	sm := NewSimpleManager()
+
+	// Setup a single metric - Gauge
+	sm.Init(MetricSpec{
+		Metrics: []MetricConfig{
+			{MQName: "known_metric", PromName: "known_metric", Help: "dummy metric value", Type: Gauge, Labels: nil},
+		},
+	})
+
+	// Post an update of an unknown metric
+	sm.Update([]MetricPayload{
+		{Name: "unknown_metric", Value: 10},
+	})
+
+	// sm should not have crashed or error out here
+
+	// Post the right update this time
+	sm.Update([]MetricPayload{
+		{Name: "known_metric", Value: 5},
+	})
+
+	// Check new value
+	assert.Equal(float64(5), testutil.ToFloat64(sm.metrics["known_metric"]))
+
+}

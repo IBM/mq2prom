@@ -1,6 +1,8 @@
 package manager
 
 import (
+	"fmt"
+
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -53,6 +55,12 @@ func (m *SimpleManager) Init(metricSpec MetricSpec) {
 func (m *SimpleManager) Update(mqpayload MQPayload) {
 	for _, payload := range mqpayload {
 		collector := m.metrics[payload.Name]
+
+		// Collector not found
+		if collector == nil {
+			fmt.Printf("Unrecognized metric found: %v. Skipping.", payload.Name)
+			continue
+		}
 
 		switch m.metricTypes[payload.Name] {
 		case Gauge:
