@@ -1,5 +1,6 @@
 mq:
   server: tcp://127.0.0.1:1883
+  topic: topic
 metrics:
   - mq_name: simple_metric
     prom_name: simple_metric_prom

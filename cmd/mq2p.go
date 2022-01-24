@@ -47,7 +47,7 @@ func main() {
 		sm.Update(mqp)
 	}
 
-	if token := c.Subscribe("topic", 0, messageHandler); token.Wait() && token.Error() != nil {
+	if token := c.Subscribe(conf.MqConfig.Topic, 0, messageHandler); token.Wait() && token.Error() != nil {
 		fmt.Println(token.Error())
 		os.Exit(1)
 	}

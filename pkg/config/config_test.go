@@ -7,16 +7,18 @@ import (
 	manager "github.ibm.com/chandergovind/mq2p/pkg/metric-manager"
 )
 
-func TestSimpleConfigNoMetrics(t *testing.T) {
+func TestSimpleConfigMQPortion(t *testing.T) {
 	assert := assert.New(t)
 
 	configString := []byte(`
 mq:
   server: dummy_server
+  topic: dummy_topic
 `)
 	cfg, err := ParseConfig(configString)
 	assert.Nil(err)
 	assert.Equal("dummy_server", cfg.MqConfig.Server)
+	assert.Equal("dummy_topic", cfg.MqConfig.Topic)
 	assert.Empty(cfg.Metrics)
 
 }

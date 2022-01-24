@@ -16,6 +16,7 @@ type Config struct {
 
 type MqConfig struct {
 	Server string
+	Topic  string
 }
 
 // ReadConfig reads the provided file for configuration
