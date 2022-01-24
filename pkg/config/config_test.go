@@ -3,8 +3,8 @@ package config
 import (
 	"testing"
 
+	manager "github.com/IBM/mq2prom/pkg/metric-manager"
 	"github.com/stretchr/testify/assert"
-	manager "github.ibm.com/chandergovind/mq2p/pkg/metric-manager"
 )
 
 func TestSimpleConfigMQPortion(t *testing.T) {

@@ -1,4 +1,4 @@
-module github.ibm.com/chandergovind/mq2p
+module github.com/IBM/mq2prom
 
 go 1.17
 

@@ -6,7 +6,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	manager "github.ibm.com/chandergovind/mq2p/pkg/metric-manager"
+	manager "github.com/IBM/mq2prom/pkg/metric-manager"
 )
 
 type Config struct {

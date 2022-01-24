@@ -9,9 +9,9 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
+	config "github.com/IBM/mq2prom/pkg/config"
+	manager "github.com/IBM/mq2prom/pkg/metric-manager"
 	mqtt "github.com/eclipse/paho.mqtt.golang"
-	config "github.ibm.com/chandergovind/mq2p/pkg/config"
-	manager "github.ibm.com/chandergovind/mq2p/pkg/metric-manager"
 )
 
 func main() {
