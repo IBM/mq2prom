@@ -1,0 +1,33 @@
+{
+    "$id": "https://github.com/IBM/mq2prom/payload.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Metric Payload",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "description": "A single metric instance.",
+        "properties": {
+            "name": {
+                "type": "string",
+                "description": "The name of the metric",
+                "pattern": "^[a-zA-Z_:][a-zA-Z0-9_:]*$"
+            },
+            "value": {
+                "description": "Metric Value",
+                "type": "number"
+            },
+            "labels": {
+                "type": "object",
+                "description": "Labels with values for metric observation",
+                "patternProperties": {
+                    "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "additionalProperties": false,
+        "required": ["name", "value"]
+    }
+}

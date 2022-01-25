@@ -13,9 +13,22 @@ make build
 ```
 builds the `mq2prom` binary which can be run directly. By default metrics are exposed on port 9641.
 
+Alternatively, the provided Docker image can be used directly.
+
+## Message Formats
+
+Consult the provided `payload.schema.json` for the JSON Schema specification of the expected metric payload message on the MQ. This had been built taking into account the [Prometheus constraints on metric and label names](https://prometheus.io/docs/concepts/data_model/). Validate your json payloads against this schema using tools specified [here](https://json-schema.org/implementations.html). Currently, the code **does not use the schema for validation**.
+
+Note: all relevant metrics have to be configured in `config.yaml` to be exported. You are also recommended to following the [Prometheus naming guidelines](https://prometheus.io/docs/practices/naming/).
+
 ## Testing
 
-Make sure that a MQTT compatible MQ is running at the port specified in the config file `config.yaml`. Run this binary.
+Run unit tests:
+```
+go test ./...
+```
+
+For an end-to-end test, make sure that a MQTT compatible MQ is running at the port specified in the config file `config.yaml`. Run this binary.
 
 Submit a message of the form `'[{"name": "simple_metric", "value": 10, "labels": {"label1": "value1"}}]'` onto the MQ.
 
