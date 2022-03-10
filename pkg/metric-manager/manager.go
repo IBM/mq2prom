@@ -68,6 +68,10 @@ func (m *SimpleManager) Update(mqpayload MQPayload) {
 		case Gauge:
 			collector.(*prometheus.GaugeVec).With(payload.Labels).Set(payload.Value)
 		case Counter:
+			if payload.Value < 0 {
+				log.Warnf("Received illegal negative value (%v) for counter \"%s\". Going to ignore update.", payload.Value, payload.Name)
+				continue
+			}
 			collector.(*prometheus.CounterVec).With(payload.Labels).Add(payload.Value)
 		}
 	}

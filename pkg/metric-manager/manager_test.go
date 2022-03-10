@@ -61,6 +61,36 @@ func TestManagerSingleGauge(t *testing.T) {
 	assert.Equal(float64(5), testutil.ToFloat64(sm.metrics["simple_metric"]))
 }
 
+func TestManagerSingleCounter(t *testing.T) {
+	assert := assert.New(t)
+
+	sm := NewSimpleManager()
+
+	// Setup a single metric - Counter
+	sm.Init(MetricSpec{
+		Metrics: []MetricConfig{
+			{MQName: "simple_metric_counter", PromName: "simple_metric_counter_prom", Help: "dummy metric value", Type: Counter, Labels: nil},
+		},
+	})
+
+	// Post an update
+	sm.Update([]MetricPayload{
+		{Name: "simple_metric_counter", Value: 10},
+	})
+
+	// Check if metric reflects the update
+	assert.Equal(float64(10), testutil.ToFloat64(sm.metrics["simple_metric_counter"]))
+
+	// Update with an illegal value - negative number
+	sm.Update([]MetricPayload{
+		{Name: "simple_metric_counter", Value: -5},
+	})
+	// sm should ignore this illegal update
+
+	// Check value - should be same as before
+	assert.Equal(float64(10), testutil.ToFloat64(sm.metrics["simple_metric_counter"]))
+}
+
 func TestManagerTwoMetrics(t *testing.T) {
 	assert := assert.New(t)
 
