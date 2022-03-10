@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
@@ -19,6 +19,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	log.Info("Successfully read config file.")
 
 	sm := manager.NewSimpleManager()
 
@@ -35,23 +37,28 @@ func main() {
 		panic(token.Error())
 	}
 
+	log.Info("Connected to MQTT Bus.")
+
 	messageHandler := func(client mqtt.Client, msg mqtt.Message) {
 		data := msg.Payload()
 
 		var mqp manager.MQPayload
 		err := json.Unmarshal(data, &mqp)
 		if err != nil {
-			fmt.Printf("Unrecognized payload. Error: %v\n", err)
+			log.Errorf("Unrecognized payload: %v\n", err)
 		}
 
 		sm.Update(mqp)
 	}
 
 	if token := c.Subscribe(conf.MqConfig.Topic, 0, messageHandler); token.Wait() && token.Error() != nil {
-		fmt.Println(token.Error())
+		log.Error("Error in subscribing to topic: ", token.Error())
 		os.Exit(1)
 	}
+	log.Info("Subscribed to topic: ", conf.MqConfig.Topic)
 
 	http.Handle("/metrics", promhttp.Handler())
+
+	log.Info("Starting up metric endpoint at :9641")
 	log.Fatal(http.ListenAndServe(":9641", nil))
 }

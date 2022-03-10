@@ -1,7 +1,7 @@
 package manager
 
 import (
-	"fmt"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -58,9 +58,11 @@ func (m *SimpleManager) Update(mqpayload MQPayload) {
 
 		// Collector not found
 		if collector == nil {
-			fmt.Printf("Unrecognized metric found: %v. Skipping.", payload.Name)
+			log.Warnf("Unrecognized metric found: \"%v\". Skip processing.", payload.Name)
 			continue
 		}
+
+		log.Debug("Processing update for metric: ", payload.Name)
 
 		switch m.metricTypes[payload.Name] {
 		case Gauge:

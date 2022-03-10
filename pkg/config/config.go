@@ -1,8 +1,9 @@
 package config
 
 import (
-	"fmt"
 	"io/ioutil"
+
+	log "github.com/sirupsen/logrus"
 
 	"gopkg.in/yaml.v3"
 
@@ -23,7 +24,7 @@ type MqConfig struct {
 func ReadConfig(filename string) (Config, error) {
 	content, err := ioutil.ReadFile(filename)
 	if err != nil {
-		fmt.Printf("Error in reading config file: ")
+		log.Error("Error in reading config file.")
 		return Config{}, err
 	}
 
@@ -35,7 +36,7 @@ func ParseConfig(content []byte) (Config, error) {
 	var config Config
 	err := yaml.Unmarshal(content, &config)
 	if err != nil {
-		fmt.Printf("Error in unmarshalling config file.")
+		log.Error("Error in unmarshalling config file.")
 		return Config{}, err
 	}
 
