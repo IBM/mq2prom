@@ -21,6 +21,11 @@ func main() {
 	}
 
 	log.Info("Successfully read config file.")
+	mqIP := os.Getenv("MQ2PROM_IP")
+	if mqIP == "" {
+	        mqIP = ""
+		log.Info("Defaulting bind IP to 0.0.0.0")
+	}
 
 	sm := manager.NewSimpleManager()
 
@@ -60,5 +65,5 @@ func main() {
 	http.Handle("/metrics", promhttp.Handler())
 
 	log.Info("Starting up metric endpoint at :9641")
-	log.Fatal(http.ListenAndServe(":9641", nil))
+	log.Fatal(http.ListenAndServe(mqIP+":9641", nil))
 }
