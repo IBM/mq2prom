@@ -29,7 +29,7 @@ func main() {
 
 	sm := manager.NewSimpleManager()
 
-	sm.Init(manager.MetricSpec{
+	registry := sm.Init(manager.MetricSpec{
 		Metrics: conf.Metrics,
 	})
 
@@ -62,7 +62,8 @@ func main() {
 	}
 	log.Info("Subscribed to topic: ", conf.MqConfig.Topic)
 
-	http.Handle("/metrics", promhttp.Handler())
+	handler := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
+	http.Handle("/metrics", handler)
 
 	log.Info("Starting up metric endpoint at :9641")
 	log.Fatal(http.ListenAndServe(mqIP+":9641", nil))

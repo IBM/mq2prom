@@ -8,7 +8,7 @@ import (
 
 type Manager interface {
 	// Initialize the Metric Manager with a list of metrics to track
-	Init(MetricSpec)
+	Init(MetricSpec) *prometheus.Registry
 	// Update a set of metrics in a single message payload
 	Update(MQPayload)
 }
@@ -26,7 +26,9 @@ func NewSimpleManager() *SimpleManager {
 	}
 }
 
-func (m *SimpleManager) Init(metricSpec MetricSpec) {
+func (m *SimpleManager) Init(metricSpec MetricSpec) *prometheus.Registry {
+	r := prometheus.NewRegistry()
+
 	for _, mc := range metricSpec.Metrics {
 		var metricCollector prometheus.Collector
 
@@ -44,12 +46,14 @@ func (m *SimpleManager) Init(metricSpec MetricSpec) {
 		}
 
 		// register this metric with Prometheus
-		prometheus.MustRegister(metricCollector)
+		r.MustRegister(metricCollector)
 
 		// store this metric collector for future use
 		m.metrics[mc.MQName] = metricCollector
 		m.metricTypes[mc.MQName] = mc.Type
 	}
+
+	return r
 }
 
 func (m *SimpleManager) Update(mqpayload MQPayload) {
