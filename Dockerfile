@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine
+FROM golang:1.19.2-alpine
 RUN mkdir /mq2prom
 COPY . /mq2prom
 WORKDIR /mq2prom
