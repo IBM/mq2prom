@@ -1,6 +1,6 @@
 module github.com/IBM/mq2prom
 
-go 1.22
+go 1.20
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.4.3
